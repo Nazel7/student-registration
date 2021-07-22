@@ -18,4 +18,6 @@ public interface IStudentRegistationService {
 
     List<Student> fetchAllStudents() throws StudentNotFoundException;
 
+    Student findStudentModelByRegistrationNo(String regNo);
+
 }

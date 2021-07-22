@@ -28,7 +28,7 @@ public class StudentRegistrationService implements IStudentRegistationService {
     @Override
     public Student saveStudent(StudentDto studentDto) {
 
-        final StudentModel studentModel= StudentMapper.mapToModel(studentDto);
+        final StudentModel studentModel = StudentMapper.mapToModel(studentDto);
         final StudentModel saveStudentModel = mStudentRegistrationRepo.save(studentModel);
         log.info("::: registered student with regNo: [{}] store to DB :::", saveStudentModel
                 .getRegistrationNo());
@@ -38,38 +38,55 @@ public class StudentRegistrationService implements IStudentRegistationService {
 
     @Override
     public Student getById(long id) throws NotActiveException, StudentNotFoundException {
-        Optional<StudentModel> optionalStudent= mStudentRegistrationRepo.findById(id);
+        Optional<StudentModel> optionalStudent = mStudentRegistrationRepo.findById(id);
 
-        if (!optionalStudent.isPresent()){
+        if (!optionalStudent.isPresent()) {
 
-            String emptyStudent= String.format("::: Student with id: %s not found :::", id);
+            String emptyStudent = String.format("::: Student with id: %s not found :::", id);
             log.info(emptyStudent);
             throw new StudentNotFoundException(emptyStudent);
         }
 
-        Student studentDomain= StudentMapper.mapToDomain(optionalStudent.get());
+        Student studentDomain = StudentMapper.mapToDomain(optionalStudent.get());
         log.info("::: Student retrieved has regNo: [{}] :::", studentDomain.getRegistrationNo());
-        return  studentDomain;
+        return studentDomain;
     }
 
     @Override
     public void deleteByID(StudentModel studentModel) {
 
         mStudentRegistrationRepo.delete(studentModel);
-        log.info("::: Student with regNo: [{}] deleted from DB :::", studentModel.getRegistrationNo());
+        log.info("::: Student with regNo: [{}] deleted from DB :::",
+                 studentModel.getRegistrationNo());
 
     }
 
     @Override
     public List<Student> fetchAllStudents() throws StudentNotFoundException {
-        List<StudentModel> model= mStudentRegistrationRepo.findAll();
+        List<StudentModel> model = mStudentRegistrationRepo.findAll();
 
-       if (model.isEmpty()){
-           log.error("::: No registered student found :::");
-           throw new StudentNotFoundException("No registered student(s) found");
-       }
+        if (model.isEmpty()) {
+            log.error("::: No registered student found :::");
+            throw new StudentNotFoundException("No registered student(s) found");
+        }
 
+        log.info("[{}] student(s) retrieved from DB", model.size());
         return StudentMapper.mapToListDomain(model);
+    }
+
+    @Override
+    public Student findStudentModelByRegistrationNo(String regNo) {
+
+        StudentModel studentModel =
+                mStudentRegistrationRepo.findStudentModelByRegistrationNo(regNo);
+        if (studentModel == null) {
+            log.error("::: Student with regNo: [{}] not found", regNo);
+        }
+
+        assert studentModel != null;
+        log.info("Student retrieved from DB has regNo: [{}]", studentModel.getRegistrationNo());
+
+        return StudentMapper.mapToDomain(studentModel);
     }
 
 }

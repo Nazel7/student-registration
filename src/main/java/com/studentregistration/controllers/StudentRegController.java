@@ -13,6 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +34,14 @@ import lombok.RequiredArgsConstructor;
 public class StudentRegController {
     private final StudentRegistrationService mStudentRegistrationService;
 
+    @CrossOrigin
+    @GetMapping("/test")
+    public ResponseEntity<String> getTest() {
+
+        return  new ResponseEntity<>("::: Welcome to Student registration service :::", HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @PostMapping(" ")
     public ResponseEntity<Student> registerStudent(@RequestBody StudentDto studentDto){
 
@@ -45,6 +54,7 @@ public class StudentRegController {
         return  ResponseEntity.created(location).build();
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public EntityModel<Student> getRegisteredStudent(@PathVariable("id") long id)
             throws NotActiveException, StudentNotFoundException {
@@ -58,6 +68,7 @@ public class StudentRegController {
         return  entityModel;
     }
 
+    @CrossOrigin
     @GetMapping("/students")
     public ResponseEntity<List<Student>> getAllRegisteredStudent()
             throws NotActiveException, StudentNotFoundException {
@@ -66,4 +77,5 @@ public class StudentRegController {
 
         return  new ResponseEntity<>(retrievedStudent, HttpStatus.OK);
     }
+
 }

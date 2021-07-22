@@ -1,12 +1,20 @@
 server:
-  port: ${PORT:80}
-
+  port: 8086
+#  For Docker Container with project jar file set: jdbc:mysql://mysql-standalone:3306/student_registration
 spring:
   datasource:
-    url: ${DATABSE_URL}
-    username: ${DATABSE_USERNAME}
-    password: ${DATABSE_PASSWORD}
+    url: jdbc:mysql://localhost:3306/student_registration?useSSL=false&serverTimezone=UTC
+    username: servbyte
+    password: servbyte
 
   jpa:
+    hibernate:
+      ddl-auto: update
     show-sql: true
+
+  data:
+    jpa:
+      repositories:
+        enabled: false
+
 
