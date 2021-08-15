@@ -1,15 +1,12 @@
 package com.studentregistration.exceptions.advices;
 
 import com.studentregistration.exceptions.StudentNotFoundException;
-import com.studentregistration.usercases.dtos.request.ExceptionMessage;
+import com.studentregistration.usercases.dtos.response.ExceptionMessage;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import java.util.Date;
 
 @RestControllerAdvice
 public class ErrorGlobalException {

@@ -1,4 +1,4 @@
-package com.studentregistration.usercases.dtos.request;
+package com.studentregistration.usercases.dtos.response;
 
 import lombok.Data;
 import lombok.ToString;
