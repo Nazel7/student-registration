@@ -6,33 +6,35 @@ import com.studentregistration.entities.StudentModel;
 import com.studentregistration.exceptions.advices.ErrorGlobalException;
 import com.studentregistration.respositories.StudentRegistrationRepo;
 import com.studentregistration.services.StudentRegistrationService;
-import com.studentregistration.usercases.domain.Student;
 import com.studentregistration.usercases.dtos.request.StudentDto;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Optional;
 
-@SpringBootTest
+@ContextConfiguration(classes = {StudentRegController.class})
+@ExtendWith(SpringExtension.class)
 class StudentModelRegistrationApplicationTests {
 
-    @Mock
+    @MockBean
     private StudentRegistrationRepo mStudentRegistrationRepo;
 
+    @MockBean
     private StudentRegistrationService mStudentRegistrationService;
 
+    @MockBean
     private StudentRegController mStudentRegController;
 
     private MockMvc mMvc;
@@ -94,7 +96,6 @@ class StudentModelRegistrationApplicationTests {
         mMvc.perform(MockMvcRequestBuilders.post(URL).contentType(
                 MediaType.APPLICATION_JSON).content(""))
             .andExpect(MockMvcResultMatchers.status().isBadRequest());
-
     }
 
 }
